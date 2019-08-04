@@ -3,11 +3,16 @@
   "version": "1.0",
   "description": "GreenCart Chrome extension.",
   "permissions": [
-    "activeTab", "declarativeContent", "storage"
+    "activeTab", 
+    "declarativeContent", 
+    "storage",
+    "webRequest",
+    "*://www.amazon.co.uk/*",
+    "webRequestBlocking"
   ],
   "background": {
     "scripts": ["background.js"],
-    "persistent": false
+    "persistent": true
   },
   "page_action": {
     "default_popup": "popup.html",
