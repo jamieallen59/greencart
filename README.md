@@ -1,7 +1,5 @@
 <p align="center">
-  <a href="https://www.steelscout.com">
-    <img alt="Greencart" src="./src/greencart_logo.png" width="120" />
-  </a>
+  <img alt="Greencart" src="./greencart_logo.png" width="120" />
 </p>
 <h2 align="center">
     greenCart
