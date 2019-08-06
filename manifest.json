@@ -12,11 +12,11 @@
     "webRequestBlocking"
   ],
   "background": {
-    "scripts": ["background.js"],
+    "page": "src/background/index.html",
     "persistent": true
   },
   "page_action": {
-    "default_popup": "popup.html",
+    "default_popup": "src/popup/index.html",
     "default_icon": {
       "16": "images/greencart_logo_16x16.png",
       "32": "images/greencart_logo_32x32.png",
