@@ -15,6 +15,15 @@
     "page": "src/background/index.html",
     "persistent": true
   },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.amazon.co.uk/*",
+        "*://*.amazon.com/*"
+      ],
+      "js": ["src/contentScripts/addCarbonCost.js"]
+    }
+  ],
   "page_action": {
     "default_popup": "src/popup/index.html",
     "default_icon": {

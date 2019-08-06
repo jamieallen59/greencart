@@ -1,24 +1,12 @@
+const carbonCostButton = document.getElementById('carbonCostButton')
 
-// .storage: Same as local storage
-// chrome.storage.sync.get('color', data => {
-  //   const { color } = data
-  
-  //   changeColor.style.backgroundColor = color;
-  //   changeColor.setAttribute('value', color);
-  // });
-  
-const changeColor = document.getElementById('tester');
-changeColor.onclick = element => {
-  // const { value: color } = element.target
-
+carbonCostButton.onclick = element => {
   chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+    const { id: tabId } = tabs[0]
+
     chrome.tabs.executeScript(
-      tabs[0].id,
+      tabId,
       { code: "alert('it works!')" }
     )
-
-    // chrome.tabs.executeScript(
-    //     tabs[0].id,
-    //     {code: 'document.body.style.backgroundColor = "' + color + '";'});
-  });
-};
+  })
+}

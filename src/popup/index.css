@@ -1,0 +1,12 @@
+.carbon-cost-btn {
+  height: 30px;
+  width: 80px;
+  outline: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.carbon-cost-btn:active {
+  position: relative;
+  top: 1px;
+}
