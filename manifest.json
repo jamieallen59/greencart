@@ -8,6 +8,7 @@
     "storage",
     "webRequest",
     "*://www.amazon.co.uk/*",
+    "*://www.amazon.com/*",
     "webRequestBlocking"
   ],
   "background": {

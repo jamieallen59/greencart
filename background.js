@@ -1,14 +1,16 @@
 // Background.js runs when chrome starts up.
-
 const redirectToAmazonSmile = info => {
-  console.log('Called', info)
-  console.log('URL info: ', info.initiator)
+  const { url } = info
 
-  return { redirectUrl: 'https://smile.amazon.co.uk' };
+  const smileUrl = url.replace('www', 'smile')
+
+  return { redirectUrl: smileUrl };
 }
+
 const filters = {
   urls: [
-    "*://www.amazon.co.uk/*"	
+    "*://www.amazon.co.uk/*",
+    "*://www.amazon.com/*"	
   ],
   types: ["main_frame", "sub_frame", "stylesheet", "script", "image", "object", "xmlhttprequest", "other"]
 }
