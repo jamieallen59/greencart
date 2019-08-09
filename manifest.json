@@ -21,7 +21,10 @@
         "*://*.amazon.co.uk/*",
         "*://*.amazon.com/*"
       ],
-      "js": ["src/contentScripts/addCarbonCost.js"]
+      "js": [
+        "src/contentScripts/addCarbonCost.js",
+        "src/contentScripts/getCategory.js"
+      ]
     }
   ],
   "page_action": {
