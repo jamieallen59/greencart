@@ -23,10 +23,10 @@ if (fs.existsSync(secretsPath)) {
 const options = {
   mode: process.env.NODE_ENV || "development",
   entry: {
-    popup: path.join(__dirname, "src", "popup", "popup.js"),
-    options: path.join(__dirname, "src", "contentScripts", "addCarbonCost.js"),
-    options: path.join(__dirname, "src", "contentScripts", "getCategory.js"),
-    background: path.join(__dirname, "src", "background", "background.js")
+    popup: path.join(__dirname, "src", "popup", "index.js"),
+    addCarbonCost: path.join(__dirname, "src", "contentScripts", "addCarbonCost.js"),
+    getCategory: path.join(__dirname, "src", "contentScripts", "getCategory.js"),
+    background: path.join(__dirname, "src", "background", "index.js")
   },
   output: {
     path: path.join(__dirname, "build"),
@@ -71,12 +71,12 @@ const options = {
       }
     }]),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "src", "popup.html"),
+      template: path.join(__dirname, "src", "popup", "index.html"),
       filename: "popup.html",
       chunks: ["popup"]
     }),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "src", "background.html"),
+      template: path.join(__dirname, "src", "background", "index.html"),
       filename: "background.html",
       chunks: ["background"]
     }),
