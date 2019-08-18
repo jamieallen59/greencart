@@ -1,4 +1,4 @@
-const addCarbonCost = () => {
+export const addCarbonCost = () => {
   // TODO: share between getCategory
   const PRICE_BOX_ID = 'priceInsideBuyBox_feature_div'
   const priceElement = document.getElementById(PRICE_BOX_ID)
@@ -17,5 +17,3 @@ const addCarbonCost = () => {
     )
   }
 }
-
-addCarbonCost()

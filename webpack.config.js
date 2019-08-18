@@ -24,8 +24,7 @@ const options = {
   mode: process.env.NODE_ENV || "development",
   entry: {
     popup: path.join(__dirname, "src", "popup", "index.js"),
-    addCarbonCost: path.join(__dirname, "src", "contentScripts", "addCarbonCost.js"),
-    getCategory: path.join(__dirname, "src", "contentScripts", "getCategory.js"),
+    contentScripts: path.join(__dirname, "src", "contentScripts", "index.js"),
     background: path.join(__dirname, "src", "background", "index.js")
   },
   output: {

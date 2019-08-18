@@ -49,22 +49,19 @@ const setCategory = element => {
   }
 }
 
-const addCategoryListener = element => {
-  element.addEventListener(
-    'change',
-    setCategory,
-    false
-  )
-}
+export const highlightLowCarbonBookOptions = () => {
+  // Check if it is a page with a book
+  // const pageDisplaysABook = checkPageDisplaysABook()
 
-const getCategory = () => {
+
   const SEARCH_DROPDOWN = 'searchDropdownBox'
   const searchDropdownElement = document.getElementById(SEARCH_DROPDOWN)
-
-  addCategoryListener(searchDropdownElement)
-
+  
+  // Initially check for category
   setCategory(searchDropdownElement)
+
+  // Add listener incase it changes later
+  searchDropdownElement.addEventListener(
+    'change', setCategory, false
+  )
 }
-
-
-getCategory()
