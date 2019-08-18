@@ -1,0 +1,47 @@
+{
+  "name": "GreenCart",
+  "version": "1.0",
+  "description": "GreenCart Chrome extension.",
+  "permissions": [
+    "activeTab", 
+    "declarativeContent", 
+    "storage",
+    "webRequest",
+    "*://www.amazon.co.uk/*",
+    "*://www.amazon.com/*",
+    "webRequestBlocking"
+  ],
+  "background": {
+    "page": "background/index.html",
+    "persistent": true
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.amazon.co.uk/*",
+        "*://*.amazon.com/*"
+      ],
+      "js": [
+        "contentScripts/addCarbonCost.js",
+        "contentScripts/getCategory.js"
+      ]
+    }
+  ],
+  "page_action": {
+    "default_popup": "popup/index.html",
+    "default_icon": {
+      "16": "../images/greencart_logo_16x16.png",
+      "32": "../images/greencart_logo_32x32.png",
+      "48": "../images/greencart_logo_48x48.png",
+      "128": "../images/greencart_logo_128x128.png"
+    }
+  },
+  "icons": {
+    "16": "../images/greencart_logo_16x16.png",
+    "32": "../images/greencart_logo_32x32.png",
+    "48": "../images/greencart_logo_48x48.png",
+    "128": "../images/greencart_logo_128x128.png"
+  },
+  "manifest_version": 2,
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}
