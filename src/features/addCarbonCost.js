@@ -7,7 +7,7 @@ export const addCarbonCost = () => {
 
   if (isOnProductPage) {
     const newElement = document.createElement('div')
-    const newContent = document.createTextNode("Carbon cost: $0.61")
+    const newContent = document.createTextNode('Carbon cost: $0.61')
     newElement.appendChild(newContent)
     
     newElement.style.color = '#419336'
