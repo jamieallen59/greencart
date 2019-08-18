@@ -7,7 +7,7 @@ import '../img/greencart_logo.png'
 
 
 // Background.js runs when chrome starts up.
-import { redirectToAmazonSmile } from '../utils/redirectToAmazonSmile'
+import { redirectToAmazonSmile } from '../features/redirectToAmazonSmile'
 import { ACTIVATE_PLUGIN_RULE } from '../constants'
 
 chrome.runtime.onInstalled.addListener(() => {
