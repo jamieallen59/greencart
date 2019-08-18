@@ -53,7 +53,6 @@ export const highlightLowCarbonBookOptions = () => {
   // Check if it is a page with a book
   // const pageDisplaysABook = checkPageDisplaysABook()
 
-
   const SEARCH_DROPDOWN = 'searchDropdownBox'
   const searchDropdownElement = document.getElementById(SEARCH_DROPDOWN)
   
