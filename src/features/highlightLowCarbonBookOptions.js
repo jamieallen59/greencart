@@ -1,66 +1,80 @@
-import { getAllText } from '../utils/getAllText'
-import { hasCarbonFriendlyText } from '../utils/hasCarbonFriendlyText'
+// Constants
+const CARBON_FRIENDLY_OPTIONS = [
+  'Kindle Edition',
+  'Audiobook'
+]
 
-let category
+// Helpers
+const hasCarbonFriendlyText = textArray => {
+  return CARBON_FRIENDLY_OPTIONS.some(text => {
+    return textArray.includes(text)
+  })
+}
 
-const BOOKS_CATEGORY_NAME = 'Books'
+// Returns an array of all the text in a DOM tree
+const getAllText = node => {
+  function recursor(n) {
+    let i
+    let array = []
 
-const highlightLowCarbonOptions = () => {
-  const BOOK_BUY_BOX = 'buybox'
-  const buyBoxElement = document.getElementById(BOOK_BUY_BOX)
+    if (n.nodeType !== 3) {
+      if (n.childNodes) {
+        for (i = 0; i < n.childNodes.length; ++i) {
+          array = array.concat(recursor(n.childNodes[i]))
+        }
+      }
+    } else {
+      array.push(n.data)
+    }
+    
+    return array
+  }
+  return recursor(node)
+}
 
-  const isOnAProductPage = !!buyBoxElement
+const checkHasBookBuyBox = () => {
+  const BOOK_PAGE_BUY_BOX_ID = 'buybox'
+  const buyBoxElement = document.getElementById(BOOK_PAGE_BUY_BOX_ID)
 
-  if (isOnAProductPage) {
-    const PRICING_ELEMENTS = 'swatchElement'
-    const pricingElements = document.getElementsByClassName(PRICING_ELEMENTS)
+  return !!buyBoxElement
+}
 
-    for (let element of pricingElements) {
-      const innerElement = element.getElementsByClassName('a-button-inner')
+const getSwatchPricingElements = () => {
+  const SWATCH_PRICING_ELEMENT_CLASSNAME = 'swatchElement'
+  const swatchPricingElements = document.getElementsByClassName(SWATCH_PRICING_ELEMENT_CLASSNAME)
+
+  return swatchPricingElements
+}
+
+const getBookPagePricingElements = () => {
+  const hasBookBuyBox = checkHasBookBuyBox()
+  const swatchPricingElements = getSwatchPricingElements()
+
+  if (hasBookBuyBox && swatchPricingElements.length) {
+    return swatchPricingElements
+  }
+
+  return null
+}
+
+// Public
+export const highlightLowCarbonBookOptions = () => {
+  // Check if it is a page with a book
+  const bookPagePricingElements = getBookPagePricingElements()
+
+  // If they exist, it is a book page
+  if (bookPagePricingElements) {
+    for (let swatchPricingElement of bookPagePricingElements) {
+      const innerElement = swatchPricingElement.getElementsByClassName('a-button-inner')
       const innerTextElement = innerElement[0].getElementsByClassName('a-button-text')
 
       const allText = getAllText(innerTextElement[0])
 
       const isCarbonFriendlyOption = hasCarbonFriendlyText(allText)
-      
+
       if (isCarbonFriendlyOption) {
         innerElement[0].style.background = 'green'
       }
     }
   }
-}
-
-const getCategoryProperty = (element = {}) => {
-  const target = element.target || element
-
-  const { options, selectedIndex } = target
-
-  const { text: category } = options[selectedIndex]
-
-  return category
-}
-
-const setCategory = element => {
-  category = getCategoryProperty(element)
-  console.log('New category', category)
-
-  if (category === BOOKS_CATEGORY_NAME) {
-    highlightLowCarbonOptions()
-  }
-}
-
-export const highlightLowCarbonBookOptions = () => {
-  // Check if it is a page with a book
-  // const pageDisplaysABook = checkPageDisplaysABook()
-
-  const SEARCH_DROPDOWN = 'searchDropdownBox'
-  const searchDropdownElement = document.getElementById(SEARCH_DROPDOWN)
-  
-  // Initially check for category
-  setCategory(searchDropdownElement)
-
-  // Add listener incase it changes later
-  searchDropdownElement.addEventListener(
-    'change', setCategory, false
-  )
 }
