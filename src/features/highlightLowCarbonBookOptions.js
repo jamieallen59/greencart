@@ -62,7 +62,7 @@ export const highlightLowCarbonBookOptions = () => {
   // Check if it is a page with a book
   const bookPagePricingElements = getBookPagePricingElements()
 
-  // If they exist, it is a book page
+  // If book page elements exist, it is a book page
   if (bookPagePricingElements) {
     for (let swatchPricingElement of bookPagePricingElements) {
       const innerElement = swatchPricingElement.getElementsByClassName('a-button-inner')
