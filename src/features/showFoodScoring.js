@@ -73,13 +73,39 @@ export const getProductInformation = () => {
   }
 }
 
+export const fetchImpactData = (productData) => {
+  const url = 'https://greencart.herokuapp.com/lookup'
+
+  // Default options are marked with *
+    return fetch(url, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, cors, *same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+            'Content-Type': 'application/json',
+            'Origin': 'https://smile.amazon.com',
+            'Access-Control-Request-Method': 'POST'
+            //'Access-Control-Allow-Origin': '*'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrer: 'no-referrer', // no-referrer, *client
+        body: JSON.stringify(productData), // body data type must match "Content-Type" header
+    })
+    .then(response => response.json())
+}
+
+
 
 export const showFoodScoring = () => {
   const isAmazonFreshPage = checkIsAmazonFreshPage()
 
   if (isAmazonFreshPage) {
     console.log('TRUE')
-    console.log(getProductInformation())
+    let data = getProductInformation()
+    console.log(data);
+    fetchImpactData(data).then(retData => {console.log(retData)})
   }
 
   // TODO: MVP
