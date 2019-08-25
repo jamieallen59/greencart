@@ -1,4 +1,5 @@
-import { getAsinNumber, getManufacturer } from '../utils/pageHelpers'
+import { getManufacturer } from '../utils/getManufacturer'
+import { getAsinNumber } from '../utils/getAsinNumber'
 import { fetchImpactData } from '../api'
 
 const AMAZON_FRESH_CATEGORY_NAME = 'Amazon Fresh'
@@ -46,10 +47,9 @@ export const getProductInformation = () => {
     .replace(/\s{2,}/g, '\n') // Replace multi-newlines with a single newline
 
   const asin = getAsinNumber()
-  console.log('asin', asin)
 
   const manufacturer = getManufacturer()
-  console.log('manufacturer', manufacturer)
+
   return {
     title,
     description,
@@ -65,7 +65,7 @@ export const showFoodScoring = async () => {
   if (isAmazonFreshPage) {
     console.log('isAmazonFreshPage? TRUE')
     const payload = getProductInformation()
-    console.log(payload)
+    console.log('Product info payload', payload)
 
     const { error, ...data } = await fetchImpactData(payload)
     if (error) {
