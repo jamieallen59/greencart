@@ -37,9 +37,31 @@ export const getAsinNumberUS = () => {
   return asin
 }
 
+export const getAsinNumberUK = () => {
+  const PRODUCT_DETAILS_ID = 'prodDetails'
+  const prodDetails = document.getElementById(PRODUCT_DETAILS_ID)
+  const labels = prodDetails.getElementsByClassName('label')
+
+  const asinElements = [...labels].filter(a => {
+    if (a.textContent.includes('ASIN')) {
+      console.log('Next sibling', a.nextSibling)
+      return true
+    }
+
+    return false
+  })
+  const [asinElement] = asinElements
+
+  if (asinElement && asinElement.nextSibling) {
+    return asinElement.nextSibling.textContent
+  }
+
+  return ''
+}
+
+
 export const getAsinNumber = () => {
-  // TODO: needs to work for UK too
-  const asin = getAsinNumberUS()
+  const asin = getAsinNumberUS() || getAsinNumberUK()
 
   return asin
 }
