@@ -59,6 +59,81 @@ export const getProductInformation = () => {
   }
 }
 
+const createTrafficLight = (color, lighterColor) => {
+  // create outer housing
+  const LIGHT_HOUSING_COLOR = '#2d2d2d'
+  const LIGHT_HOUSING_SIZE = '32px'
+
+  const lightHousing = document.createElement('div')
+
+  lightHousing.style.display = 'flex'
+  lightHousing.style.justifyContent = 'center'
+  lightHousing.style.alignItems = 'center'
+  lightHousing.style.width = LIGHT_HOUSING_SIZE
+  lightHousing.style.height = LIGHT_HOUSING_SIZE
+  lightHousing.style.borderRadius = '2px'
+  lightHousing.style.backgroundColor = LIGHT_HOUSING_COLOR
+  // lightHousing.onmouseover = () => {
+  //   this.style.position = 'relative'
+  //   this.style.top = '1px'
+  // }
+
+  // create inner light
+  const LIGHT_SIZE = '26px'
+
+  const trafficLight = document.createElement('div')
+  trafficLight.style.width = LIGHT_SIZE
+  trafficLight.style.height = LIGHT_SIZE
+  trafficLight.style.borderRadius = LIGHT_SIZE
+  trafficLight.style.cursor = 'pointer'
+  trafficLight.style.backgroundColor = color
+  trafficLight.onmouseover = function() {
+    this.style.backgroundColor = lighterColor
+  }
+  trafficLight.onmouseleave = function() {
+    this.style.backgroundColor = color
+  }
+
+  lightHousing.appendChild(trafficLight)
+  
+  return lightHousing
+}
+
+const addTrafficLights = () => {
+  const green = '#126315'
+  const lighterGreen = '#1b9720'
+  const amber = '#F18F01'
+  const lighterAmber = '#feaa31'
+  const red = '#E80B0B'
+  const lighterRed = '#f63b3b'
+
+  // create outer wrapper
+  const trafficLights = document.createElement('div')
+  trafficLights.style.position = 'absolute'
+  trafficLights.style.top = '40px'
+  trafficLights.style.right = '40px'
+  trafficLights.style.display = 'flex'
+  trafficLights.style.flexDirection = 'column'
+  trafficLights.style.justifyContent = 'space-evenly'
+  trafficLights.style.alignItems = 'center'
+  trafficLights.style.zIndex = '1000'
+  trafficLights.style.width = '40px'
+  trafficLights.style.height = '120px'
+  trafficLights.style.borderRadius = '4px'
+  trafficLights.style.backgroundColor = 'black'
+
+  // create individual traffic lights
+  const greenLight = createTrafficLight(green, lighterGreen)
+  const amberLight = createTrafficLight(amber, lighterAmber)
+  const redLight = createTrafficLight(red, lighterRed)
+
+  trafficLights.appendChild(greenLight)
+  trafficLights.appendChild(amberLight)
+  trafficLights.appendChild(redLight)
+
+  document.body.appendChild(trafficLights)
+}
+
 export const showFoodScoring = async () => {
   const isAmazonFreshPage = checkIsAmazonFreshPage()
 
@@ -72,6 +147,8 @@ export const showFoodScoring = async () => {
       // TODO: potentially handle in some way. Do nothing for now.
       return
     }
+
+    addTrafficLights()
 
     console.log('impactData', data)
   }
