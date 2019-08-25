@@ -73,10 +73,6 @@ const createTrafficLight = (color, lighterColor) => {
   lightHousing.style.height = LIGHT_HOUSING_SIZE
   lightHousing.style.borderRadius = '2px'
   lightHousing.style.backgroundColor = LIGHT_HOUSING_COLOR
-  // lightHousing.onmouseover = () => {
-  //   this.style.position = 'relative'
-  //   this.style.top = '1px'
-  // }
 
   // create inner light
   const LIGHT_SIZE = '26px'
@@ -87,6 +83,8 @@ const createTrafficLight = (color, lighterColor) => {
   trafficLight.style.borderRadius = LIGHT_SIZE
   trafficLight.style.cursor = 'pointer'
   trafficLight.style.backgroundColor = color
+  trafficLight.style.transition = '.15s ease-in-out'
+
   trafficLight.onmouseover = function() {
     this.style.backgroundColor = lighterColor
   }
@@ -147,6 +145,9 @@ export const showFoodScoring = async () => {
       // TODO: potentially handle in some way. Do nothing for now.
       return
     }
+
+    // TODO: highlight based on response from impact data
+    // TODO: show default text otherwise
 
     addTrafficLights()
 
