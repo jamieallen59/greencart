@@ -24,7 +24,7 @@ const hasAmazonFreshHeader = () => {
     
     return false
   } catch (error) {
-    console.log('Error', error)
+    console.log('hasAmazonFreshHeader Error', error)
     return false
   }
 }
@@ -59,7 +59,6 @@ export const getProductInformation = () => {
   }
 }
 
-
 export const showFoodScoring = async () => {
   const isAmazonFreshPage = checkIsAmazonFreshPage()
 
@@ -68,9 +67,13 @@ export const showFoodScoring = async () => {
     const payload = getProductInformation()
     console.log(payload)
 
-    const impactData = await fetchImpactData(payload)
+    const { error, ...data } = await fetchImpactData(payload)
+    if (error) {
+      // TODO: potentially handle in some way. Do nothing for now.
+      return
+    }
 
-    console.log('impactData', impactData)
+    console.log('impactData', data)
   }
 
   // TODO: MVP

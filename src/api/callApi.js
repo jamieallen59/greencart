@@ -1,4 +1,7 @@
 
+const isSuccessfulResponse = ({ status }) =>
+  status >= 200 && status < 300
+
 export default (method = 'GET', url, payload) => {
   const body = JSON.stringify(payload)
 
@@ -21,7 +24,16 @@ export default (method = 'GET', url, payload) => {
   }
 
   return fetch(url, fetchOptions)
-    .then(response => response.json())
+    .then(response => {
+      if (isSuccessfulResponse(response)) {
+        return response.json()
+      }
+
+      return response.json().then(error => {
+        console.log('Fetch error', error)
+        return { error }
+      })
+    })
     .catch(error => {
       console.log('Fetch error', error)
       return { error }

@@ -4,10 +4,10 @@ const getManufacturerUS = () => {
   let byLine = document.evaluate(BY_XPATH, document)
 
   try {  
-    let el = byLine.iterateNext()
-    byLine = el.textContent.replace(/\s+/g, ' ').trim()
+    const element = byLine.iterateNext()
+    byLine = element.textContent.replace(/\s+/g, ' ').trim()
   } catch (error) {
-    console.log('Error', error)
+    console.log('getManufacturerUS Error', error)
     byLine = null
   }
 
@@ -15,7 +15,7 @@ const getManufacturerUS = () => {
 }
 
 export const getManufacturer = () => {
-  // needs to work for UK too
+  // TODO: needs to work for UK too
   const manufacturer = getManufacturerUS()
 
   return manufacturer
@@ -27,10 +27,10 @@ export const getAsinNumberUS = () => {
   let asin = document.evaluate(ASIN_XPATH, document)
 
   try {
-    let el = asin.iterateNext()
-    asin = el.textContent.replace('ASIN:', '').trim()
+    const element = asin.iterateNext()
+    asin = element.textContent.replace('ASIN:', '').trim()
   } catch (error) {
-    console.log('Error', error)
+    console.log('getAsinNumberUS Error', error)
     asin = null
   }
 
@@ -38,7 +38,7 @@ export const getAsinNumberUS = () => {
 }
 
 export const getAsinNumber = () => {
-  // needs to work for UK too
+  // TODO: needs to work for UK too
   const asin = getAsinNumberUS()
 
   return asin
