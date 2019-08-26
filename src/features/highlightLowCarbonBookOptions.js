@@ -1,3 +1,5 @@
+import { COLOURS } from '../constants'
+
 // Constants
 const CARBON_FRIENDLY_OPTIONS = [
   'Kindle Edition',
@@ -73,7 +75,7 @@ export const highlightLowCarbonBookOptions = () => {
       const isCarbonFriendlyOption = hasCarbonFriendlyText(allText)
 
       if (isCarbonFriendlyOption) {
-        innerElement[0].style.background = 'green'
+        innerElement[0].style.background = COLOURS.GREENCART_MAIN
       }
     }
   }

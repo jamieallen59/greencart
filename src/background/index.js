@@ -8,7 +8,20 @@ import '../img/greencart_logo.png'
 
 // Background.js runs when chrome starts up.
 import { redirectToAmazonSmile } from '../features/redirectToAmazonSmile'
-import { ACTIVATE_PLUGIN_RULE } from '../constants'
+
+// Handles when to activate the plugin
+export const ACTIVATE_PLUGIN_RULE = {
+  conditions: [
+    // https://developer.chrome.com/extensions/declarativeContent#property-PageStateMatcher
+    new chrome.declarativeContent.PageStateMatcher({
+      pageUrl: {
+        urlContains: '.amazon.'
+      },
+    })
+  ],
+  // Triggers page_action declared in manifest.json
+  actions: [new chrome.declarativeContent.ShowPageAction()]
+}
 
 chrome.runtime.onInstalled.addListener(() => {
   // This is done here so it redirects before the page attempts to load.
