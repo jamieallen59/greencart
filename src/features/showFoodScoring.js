@@ -213,7 +213,7 @@ export const showFoodScoring = async () => {
       console.log('impactData', impactData)
     }
 
-    // defeault currently does nothing if we can't match the words on the page
+    // default currently does nothing if we can't match the words on the page
   }
 
   // TODO: MVP

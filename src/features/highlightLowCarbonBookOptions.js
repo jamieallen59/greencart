@@ -7,7 +7,7 @@ const CARBON_FRIENDLY_OPTIONS = [
 // Helpers
 const hasCarbonFriendlyText = textArray => {
   return CARBON_FRIENDLY_OPTIONS.some(text => {
-    return textArray.includes(text)
+    return textArray.some(arrayText => arrayText.includes(text))
   })
 }
 
