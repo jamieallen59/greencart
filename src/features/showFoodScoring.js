@@ -59,7 +59,8 @@ export const getProductInformation = () => {
   }
 }
 
-const createTrafficLight = (color, lighterColor, highlightedColor) => {
+const createTrafficLight = ({ color, lighterColor, isHighlighted }) => {
+  console.log('highlightedColor', isHighlighted)
   // create outer housing
   const LIGHT_HOUSING_COLOR = '#2d2d2d'
   const LIGHT_HOUSING_SIZE = '32px'
@@ -76,15 +77,20 @@ const createTrafficLight = (color, lighterColor, highlightedColor) => {
 
   // create inner light
   const LIGHT_SIZE = '26px'
-  const lightColor = highlightedColor ? lighterColor : color
 
   const trafficLight = document.createElement('div')
   trafficLight.style.width = LIGHT_SIZE
   trafficLight.style.height = LIGHT_SIZE
   trafficLight.style.borderRadius = LIGHT_SIZE
   trafficLight.style.cursor = 'pointer'
-  trafficLight.style.backgroundColor = lightColor
   trafficLight.style.transition = '.15s ease-in-out'
+  
+  if (isHighlighted) {
+    trafficLight.style.backgroundColor = lighterColor
+    trafficLight.style.boxShadow = `0 0 20px ${lighterColor}`
+  } else {
+    trafficLight.style.backgroundColor = color
+  }
 
   lightHousing.appendChild(trafficLight)
   
@@ -92,13 +98,6 @@ const createTrafficLight = (color, lighterColor, highlightedColor) => {
 }
 
 const addTrafficLights = (highlightedColor) => {
-  const green = '#126315'
-  const lighterGreen = '#1b9720'
-  const amber = '#F18F01'
-  const lighterAmber = '#ffd462'
-  const red = '#E80B0B'
-  const lighterRed = '#f63b3b'
-
   // create outer wrapper
   const trafficLights = document.createElement('div')
   trafficLights.style.position = 'absolute'
@@ -112,13 +111,30 @@ const addTrafficLights = (highlightedColor) => {
   trafficLights.style.width = '40px'
   trafficLights.style.height = '120px'
   trafficLights.style.borderRadius = '4px'
-  trafficLights.style.backgroundColor = 'black'
+  trafficLights.style.backgroundColor = '#b3b3b3'
 
   // create individual traffic lights
-  const greenLight = createTrafficLight(green, lighterGreen, highlightedColor)
-  const amberLight = createTrafficLight(amber, lighterAmber, highlightedColor)
-  const redLight = createTrafficLight(red, lighterRed, highlightedColor)
+  const greenLightDetails = {
+    color: '#126315',
+    lighterColor: '#1b9720',
+    isHighlighted: highlightedColor === 'green'
+  }
+  const amberLightDetails = {
+    color: '#F18F01',
+    lighterColor: '#ffd462',
+    isHighlighted: highlightedColor === 'amber'
+  }
+  const redLightDetails = {
+    color: '#E80B0B',
+    lighterColor: '#f63b3b',
+    isHighlighted: highlightedColor === 'red'
+  }
 
+  const greenLight = createTrafficLight(greenLightDetails)
+  const amberLight = createTrafficLight(amberLightDetails)
+  const redLight = createTrafficLight(redLightDetails)
+
+  // add them all together and place into the DOM
   trafficLights.appendChild(greenLight)
   trafficLights.appendChild(amberLight)
   trafficLights.appendChild(redLight)
@@ -180,6 +196,9 @@ export const showFoodScoring = async () => {
       // TODO: potentially handle in some way. Do nothing for now.
       return
     }
+
+    console.log('showFoodScoring error', error)
+    console.log('showFoodScoring data', data)
     
     if (data.id) {
       const impactData = parseResponseData(data)
@@ -188,7 +207,7 @@ export const showFoodScoring = async () => {
       // TODO: highlight based on response from impact data
       // TODO: show default text otherwise
       if (trafficLightColor) {
-        addTrafficLights(trafficLightColor, )
+        addTrafficLights(trafficLightColor)
       }
   
       console.log('impactData', impactData)
