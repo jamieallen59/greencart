@@ -1,5 +1,7 @@
-const webpack = require("webpack")
-const config = require("../webpack.config")
+/* eslint-disable no-undef */
+
+const webpack = require('webpack')
+const config = require('../webpack.config')
 
 delete config.chromeExtensionBoilerplate
 

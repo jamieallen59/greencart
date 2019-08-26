@@ -25,7 +25,6 @@ const hasAmazonFreshHeader = () => {
     
     return false
   } catch (error) {
-    console.log('hasAmazonFreshHeader Error', error)
     return false
   }
 }
@@ -60,7 +59,6 @@ export const getProductInformation = () => {
 }
 
 const createTrafficLight = ({ color, lighterColor, isHighlighted }) => {
-  console.log('highlightedColor', isHighlighted)
   // create outer housing
   const LIGHT_HOUSING_COLOR = '#2d2d2d'
   const LIGHT_HOUSING_SIZE = '32px'
@@ -189,7 +187,6 @@ export const showFoodScoring = async () => {
 
   if (isAmazonFreshPage) {
     const payload = getProductInformation()
-    console.log('Product info payload', payload)
 
     const { error, ...data } = await fetchImpactData(payload)
     if (error) {
@@ -197,9 +194,6 @@ export const showFoodScoring = async () => {
       return
     }
 
-    console.log('showFoodScoring error', error)
-    console.log('showFoodScoring data', data)
-    
     if (data.id) {
       const impactData = parseResponseData(data)
       const { trafficLightColor } = impactData
@@ -209,10 +203,7 @@ export const showFoodScoring = async () => {
       if (trafficLightColor) {
         addTrafficLights(trafficLightColor)
       }
-  
-      console.log('impactData', impactData)
     }
-
     // default currently does nothing if we can't match the words on the page
   }
 
