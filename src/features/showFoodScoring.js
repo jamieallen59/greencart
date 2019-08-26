@@ -59,7 +59,7 @@ export const getProductInformation = () => {
   }
 }
 
-const createTrafficLight = (color, lighterColor) => {
+const createTrafficLight = (color, lighterColor, highlightedColor) => {
   // create outer housing
   const LIGHT_HOUSING_COLOR = '#2d2d2d'
   const LIGHT_HOUSING_SIZE = '32px'
@@ -76,32 +76,26 @@ const createTrafficLight = (color, lighterColor) => {
 
   // create inner light
   const LIGHT_SIZE = '26px'
+  const lightColor = highlightedColor ? lighterColor : color
 
   const trafficLight = document.createElement('div')
   trafficLight.style.width = LIGHT_SIZE
   trafficLight.style.height = LIGHT_SIZE
   trafficLight.style.borderRadius = LIGHT_SIZE
   trafficLight.style.cursor = 'pointer'
-  trafficLight.style.backgroundColor = color
+  trafficLight.style.backgroundColor = lightColor
   trafficLight.style.transition = '.15s ease-in-out'
-
-  trafficLight.onmouseover = function() {
-    this.style.backgroundColor = lighterColor
-  }
-  trafficLight.onmouseleave = function() {
-    this.style.backgroundColor = color
-  }
 
   lightHousing.appendChild(trafficLight)
   
   return lightHousing
 }
 
-const addTrafficLights = () => {
+const addTrafficLights = (highlightedColor) => {
   const green = '#126315'
   const lighterGreen = '#1b9720'
   const amber = '#F18F01'
-  const lighterAmber = '#feaa31'
+  const lighterAmber = '#ffd462'
   const red = '#E80B0B'
   const lighterRed = '#f63b3b'
 
@@ -121,9 +115,9 @@ const addTrafficLights = () => {
   trafficLights.style.backgroundColor = 'black'
 
   // create individual traffic lights
-  const greenLight = createTrafficLight(green, lighterGreen)
-  const amberLight = createTrafficLight(amber, lighterAmber)
-  const redLight = createTrafficLight(red, lighterRed)
+  const greenLight = createTrafficLight(green, lighterGreen, highlightedColor)
+  const amberLight = createTrafficLight(amber, lighterAmber, highlightedColor)
+  const redLight = createTrafficLight(red, lighterRed, highlightedColor)
 
   trafficLights.appendChild(greenLight)
   trafficLights.appendChild(amberLight)
@@ -132,11 +126,52 @@ const addTrafficLights = () => {
   document.body.appendChild(trafficLights)
 }
 
+const getFoodInfo = foodCategory => {
+  switch (true) {
+  case foodCategory.includes('Dairy Foods'):
+  case foodCategory.includes('Meat & Poultry'):
+    return {
+      trafficLightColor: 'red',
+      description: 'You should eat these sparingly. These include meats, processed foods, or produce grown out-of-season and shipped long distances.',
+    }
+  case foodCategory.includes('Fish & Seafood'):
+    return {
+      trafficLightColor: 'amber',
+      description: 'These foods are medium impact.',
+    }
+  case foodCategory.includes('Grain, Beans & Nuts'):
+  case foodCategory.includes('Vegetable'):
+  case foodCategory.includes('Fruits'):
+    return {
+      trafficLightColor: 'green',
+      description: 'This food is environmentally friendly and low-impact. Plants and unprocessed foods fall into this category.',
+    }
+  default:
+    return {}
+  }
+}
+
+const parseResponseData = (data = {}) => {
+  const { fields } = data
+
+  const carbonImpact = fields['Carbon Impact']
+  const carbonImpactUnits = fields['Carbon Impact Units']
+  const foodCategory = fields['Food Category']
+
+  const { trafficLightColor, description } = getFoodInfo(foodCategory)
+
+  return {
+    foodCategory,
+    impact: `${carbonImpact} ${carbonImpactUnits}`,
+    trafficLightColor,
+    description
+  }
+}
+
 export const showFoodScoring = async () => {
   const isAmazonFreshPage = checkIsAmazonFreshPage()
 
   if (isAmazonFreshPage) {
-    console.log('isAmazonFreshPage? TRUE')
     const payload = getProductInformation()
     console.log('Product info payload', payload)
 
@@ -145,13 +180,21 @@ export const showFoodScoring = async () => {
       // TODO: potentially handle in some way. Do nothing for now.
       return
     }
+    
+    if (data.id) {
+      const impactData = parseResponseData(data)
+      const { trafficLightColor } = impactData
 
-    // TODO: highlight based on response from impact data
-    // TODO: show default text otherwise
+      // TODO: highlight based on response from impact data
+      // TODO: show default text otherwise
+      if (trafficLightColor) {
+        addTrafficLights(trafficLightColor, )
+      }
+  
+      console.log('impactData', impactData)
+    }
 
-    addTrafficLights()
-
-    console.log('impactData', data)
+    // defeault currently does nothing if we can't match the words on the page
   }
 
   // TODO: MVP
