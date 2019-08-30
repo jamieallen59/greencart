@@ -27,9 +27,6 @@ const createTrafficLight = ({ color, lighterColor, isHighlighted }) => {
   if (isHighlighted) {
     trafficLight.style.backgroundColor = lighterColor
     trafficLight.style.boxShadow = `0 0 20px ${lighterColor}`
-    // add speech bubble
-    // const speechBubble = createSpeechBubble(description, color)
-    // lightHousing.appendChild(speechBubble)
   } else {
     trafficLight.style.backgroundColor = color
     trafficLight.style.opacity = '0.4'

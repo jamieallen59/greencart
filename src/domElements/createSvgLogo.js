@@ -12,9 +12,6 @@ export const createSvgLogo = () => {
   svg.setAttribute('width', SVG_SIZE)
   svg.setAttribute('height', SVG_SIZE)
 
-  // svg.style.width = SVG_SIZE
-  // svg.style.height = SVG_SIZE
-
   // create svg
   var path1 = document.createElementNS('http://www.w3.org/2000/svg', 'path') //Create a path in SVG's namespace
   path1.setAttribute('d', PATH_ONE) // Set path's data

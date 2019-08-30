@@ -119,28 +119,10 @@ export const showFoodScoring = async () => {
       return
     }
 
-    console.log('------ showFoodScoring ------------')
-    console.log('error: ', error)
-
-    console.log('data: ', data)
-    const fakeData = {
-      id: 123,
-      fields: {
-        'Carbon Impact': 134.34,
-        'Carbon Impact Units': 'kg/m',
-        // 'Food Category': 'Dairy Foods',
-        // 'Food Category': 'Fish & Seafood',
-        'Food Category': 'Vegetable',
-      }
-    }
-
-    if (fakeData.id) {
-      const impactData = parseResponseData(fakeData)
+    if (data.id) {
+      const impactData = parseResponseData(data)
       const { trafficLightColor, description } = impactData
-      console.log('trafficLightColor: ', trafficLightColor)
 
-      // TODO: highlight based on response from impact data
-      // TODO: show default text otherwise
       if (trafficLightColor) {
         addFoodScoringWidget(trafficLightColor, description)
       }
