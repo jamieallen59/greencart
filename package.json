@@ -1,6 +1,6 @@
 {
   "name": "greencart",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "An extension that estimates carbon impact from shopping, promotes greener alternatives, and rewards sustainable choices.",
   "main": "index.js",
   "repository": "git@github.com:jamieallen59/greencart.git",

@@ -1,7 +1,8 @@
 {
-  "name": "GreenCart",
-  "version": "1.0",
-  "description": "GreenCart Chrome extension.",
+  "name": "greenCart",
+  "short_name": "greenCart",
+  "version": "0.0.1",
+  "description": "greenCart Chrome extension.",
   "permissions": [
     "activeTab", 
     "declarativeContent", 
