@@ -3,7 +3,7 @@ import { COLOURS } from '../constants'
 
 // Constants
 const CARBON_FRIENDLY_OPTIONS = [
-  'Kindle Edition',
+  'Kindle',
   'Audiobook'
 ]
 

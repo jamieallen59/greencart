@@ -28,7 +28,6 @@
     }
   ],
   "page_action": {
-    "default_popup": "popup.html",
     "default_icon": {
       "16": "greencart_logo_16x16.png",
       "32": "greencart_logo_32x32.png",
