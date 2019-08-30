@@ -1,6 +1,7 @@
 import { getManufacturer } from '../utils/getManufacturer'
 import { getAsinNumber } from '../utils/getAsinNumber'
 import { fetchImpactData } from '../api'
+import { createFoodScoringWidget } from '../domElements/createFoodScoringWidget'
 
 const AMAZON_FRESH_CATEGORY_NAME = 'Amazon Fresh'
 
@@ -58,86 +59,10 @@ export const getProductInformation = () => {
   }
 }
 
-const createTrafficLight = ({ color, lighterColor, isHighlighted }) => {
-  // create outer housing
-  const LIGHT_HOUSING_COLOR = '#2d2d2d'
-  const LIGHT_HOUSING_SIZE = '32px'
+const addFoodScoringWidget = (highlightedColor, description) => {
+  const widget = createFoodScoringWidget(highlightedColor, description)
 
-  const lightHousing = document.createElement('div')
-
-  lightHousing.style.display = 'flex'
-  lightHousing.style.justifyContent = 'center'
-  lightHousing.style.alignItems = 'center'
-  lightHousing.style.width = LIGHT_HOUSING_SIZE
-  lightHousing.style.height = LIGHT_HOUSING_SIZE
-  lightHousing.style.borderRadius = '2px'
-  lightHousing.style.backgroundColor = LIGHT_HOUSING_COLOR
-
-  // create inner light
-  const LIGHT_SIZE = '26px'
-
-  const trafficLight = document.createElement('div')
-  trafficLight.style.width = LIGHT_SIZE
-  trafficLight.style.height = LIGHT_SIZE
-  trafficLight.style.borderRadius = LIGHT_SIZE
-  trafficLight.style.cursor = 'pointer'
-  trafficLight.style.transition = '.15s ease-in-out'
-  
-  if (isHighlighted) {
-    trafficLight.style.backgroundColor = lighterColor
-    trafficLight.style.boxShadow = `0 0 20px ${lighterColor}`
-  } else {
-    trafficLight.style.backgroundColor = color
-  }
-
-  lightHousing.appendChild(trafficLight)
-  
-  return lightHousing
-}
-
-const addTrafficLights = (highlightedColor) => {
-  // create outer wrapper
-  const trafficLights = document.createElement('div')
-  trafficLights.style.position = 'absolute'
-  trafficLights.style.top = '40px'
-  trafficLights.style.right = '40px'
-  trafficLights.style.display = 'flex'
-  trafficLights.style.flexDirection = 'column'
-  trafficLights.style.justifyContent = 'space-evenly'
-  trafficLights.style.alignItems = 'center'
-  trafficLights.style.zIndex = '1000'
-  trafficLights.style.width = '40px'
-  trafficLights.style.height = '120px'
-  trafficLights.style.borderRadius = '4px'
-  trafficLights.style.backgroundColor = '#b3b3b3'
-
-  // create individual traffic lights
-  const greenLightDetails = {
-    color: '#126315',
-    lighterColor: '#1b9720',
-    isHighlighted: highlightedColor === 'green'
-  }
-  const amberLightDetails = {
-    color: '#F18F01',
-    lighterColor: '#ffd462',
-    isHighlighted: highlightedColor === 'amber'
-  }
-  const redLightDetails = {
-    color: '#E80B0B',
-    lighterColor: '#f63b3b',
-    isHighlighted: highlightedColor === 'red'
-  }
-
-  const greenLight = createTrafficLight(greenLightDetails)
-  const amberLight = createTrafficLight(amberLightDetails)
-  const redLight = createTrafficLight(redLightDetails)
-
-  // add them all together and place into the DOM
-  trafficLights.appendChild(greenLight)
-  trafficLights.appendChild(amberLight)
-  trafficLights.appendChild(redLight)
-
-  document.body.appendChild(trafficLights)
+  document.body.appendChild(widget)
 }
 
 const getFoodInfo = foodCategory => {
@@ -146,19 +71,19 @@ const getFoodInfo = foodCategory => {
   case foodCategory.includes('Meat & Poultry'):
     return {
       trafficLightColor: 'red',
-      description: 'You should eat these sparingly. These include meats, processed foods, or produce grown out-of-season and shipped long distances.',
+      description: 'You should eat these foods sparingly. These include meats, processed foods, or produce grown out-of-season and shipped long distances.',
     }
   case foodCategory.includes('Fish & Seafood'):
     return {
       trafficLightColor: 'amber',
-      description: 'These foods are medium impact.',
+      description: 'These foods have a medium carbon impact.',
     }
   case foodCategory.includes('Grain, Beans & Nuts'):
   case foodCategory.includes('Vegetable'):
   case foodCategory.includes('Fruits'):
     return {
       trafficLightColor: 'green',
-      description: 'This food is environmentally friendly and low-impact. Plants and unprocessed foods fall into this category.',
+      description: 'This food is environmentally friendly and low carbon-impact. Plants and unprocessed foods fall into this category.',
     }
   default:
     return {}
@@ -188,20 +113,36 @@ export const showFoodScoring = async () => {
   if (isAmazonFreshPage) {
     const payload = getProductInformation()
 
-    const { error, ...data } = await fetchImpactData(payload)
+    const { error, ...data } = await fetchImpactData(payload) || {}
     if (error) {
       // TODO: potentially handle in some way. Do nothing for now.
       return
     }
 
-    if (data.id) {
-      const impactData = parseResponseData(data)
-      const { trafficLightColor } = impactData
+    console.log('------ showFoodScoring ------------')
+    console.log('error: ', error)
+
+    console.log('data: ', data)
+    const fakeData = {
+      id: 123,
+      fields: {
+        'Carbon Impact': 134.34,
+        'Carbon Impact Units': 'kg/m',
+        // 'Food Category': 'Dairy Foods',
+        // 'Food Category': 'Fish & Seafood',
+        'Food Category': 'Vegetable',
+      }
+    }
+
+    if (fakeData.id) {
+      const impactData = parseResponseData(fakeData)
+      const { trafficLightColor, description } = impactData
+      console.log('trafficLightColor: ', trafficLightColor)
 
       // TODO: highlight based on response from impact data
       // TODO: show default text otherwise
       if (trafficLightColor) {
-        addTrafficLights(trafficLightColor)
+        addFoodScoringWidget(trafficLightColor, description)
       }
     }
     // default currently does nothing if we can't match the words on the page

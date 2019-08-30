@@ -1,3 +1,5 @@
+import { createSvgLogo } from '../domElements/createSvgLogo'
+import { addCssToDom } from '../utils/addCssToDom'
 import { COLOURS } from '../constants'
 
 // Constants
@@ -60,6 +62,13 @@ const getBookPagePricingElements = () => {
 }
 
 const applyCarbonFriendlyStyles = (element) => {
+  const logo = createSvgLogo()
+  logo.style.position = 'absolute'
+  logo.style.bottom = '2px'
+  logo.style.right = '2px'
+  logo.setAttribute('width', '20px')
+  logo.setAttribute('height', '20px')
+
   // element.stlye = {
   //   ...element,
   //   background: COLOURS.GREENCART_MAIN
@@ -67,15 +76,19 @@ const applyCarbonFriendlyStyles = (element) => {
 
   // element.style.background = COLOURS.GREENCART_MAIN
   element.style.boxShadow = `2px 2px 0 2px ${COLOURS.GREENCART_MAIN}`
+  element.style.position = 'relative'
+
+  element.appendChild(logo)
 }
 
+// eslint-disable-next-line
 const getGreenCartTag = () => {
   const GREENCART_MAIN_SHADOW = '#30632a'
-  const GREENCART_CLASSNAME = 'greencart-tag'
+  const GREENCART_TAG_CLASSNAME = 'greencart-tag'
 
   // create tag element
   const greenCartTag = document.createElement('div')
-  greenCartTag.classList.add(GREENCART_CLASSNAME)
+  greenCartTag.classList.add(GREENCART_TAG_CLASSNAME)
   // greenCartTag.style.width = '20px'
   greenCartTag.style.height = '40px'
   greenCartTag.style.position = 'absolute'
@@ -98,20 +111,14 @@ const getGreenCartTag = () => {
   greenCartTag.style.transform = 'rotate(20deg)'
   greenCartTag.style.zIndex = '1000'
 
+  
   const css = `
-    .greencart-tag:hover{
+    .${GREENCART_TAG_CLASSNAME}:hover{
       background-color: ${COLOURS.GREENCART_MAIN}
     }
   `
-  const style = document.createElement('style')
-
-  if (style.styleSheet) {
-    style.styleSheet.cssText = css
-  } else {
-    style.appendChild(document.createTextNode(css))
-  }
-
-  document.getElementsByTagName('head')[0].appendChild(style)
+  addCssToDom(css)
+  
 
 
   // &:active {
@@ -184,8 +191,8 @@ export const highlightLowCarbonBookOptions = () => {
 
       if (isCarbonFriendlyOption) {
         applyCarbonFriendlyStyles(innerElement[0])
-        const greenCartTag = getGreenCartTag()
-        innerElement[0].appendChild(greenCartTag)
+        // const greenCartTag = getGreenCartTag()
+        // innerElement[0].appendChild(greenCartTag)
       }
     }
   }
